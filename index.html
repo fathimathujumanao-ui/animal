@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Animal Count Challenge</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: Arial, Helvetica, sans-serif;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #050505, #101010, #050505);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 850px;
+            background: #151515;
+            border: 1px solid #333;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 0 35px rgba(0, 255, 255, 0.15);
+        }
+
+        h1 {
+            text-align: center;
+            color: #00ffff;
+            font-size: 34px;
+            margin-bottom: 10px;
+            text-shadow: 0 0 12px #00ffff;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 25px;
+        }
+
+        .section {
+            margin-top: 20px;
+            padding: 25px;
+            background: #101010;
+            border-radius: 15px;
+            border: 1px solid #292929;
+        }
+
+        .section h2 {
+            color: #00ffff;
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 1px solid #444;
+            background: #050505;
+            color: white;
+            font-size: 17px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #00ffff;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.3);
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 15px;
+            border: none;
+            border-radius: 10px;
+            background: #00ffff;
+            color: #000;
+            font-size: 17px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: #00cccc;
+            transform: translateY(-2px);
+        }
+
+        .message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+            text-align: center;
+            display: none;
+        }
+
+        .error {
+            background: rgba(255, 0, 0, 0.15);
+            border: 1px solid #ff3333;
+            color: #ff6666;
+        }
+
+        .success {
+            background: rgba(0, 255, 100, 0.12);
+            border: 1px solid #00ff66;
+            color: #00ff66;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .team-box {
+            text-align: center;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #080808;
+            border-radius: 10px;
+            border: 1px solid #333;
+        }
+
+        .team-box span {
+            color: #00ffff;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .animal-question {
+            text-align: center;
+            font-size: 25px;
+            margin: 20px 0;
+        }
+
+        .animal-name {
+            color: #00ffff;
+            font-weight: bold;
+        }
+
+        .puzzle-image {
+            width: 100%;
+            max-height: 600px;
+            object-fit: contain;
+            border-radius: 12px;
+            border: 2px solid #333;
+            margin-top: 10px;
+            background: black;
+        }
+
+        .code-box {
+            text-align: center;
+            margin-top: 20px;
+            padding: 22px;
+            border-radius: 12px;
+            background: #050505;
+            border: 1px solid #00ffff;
+        }
+
+        .code {
+            display: block;
+            margin-top: 10px;
+            color: #00ffff;
+            font-size: 30px;
+            font-weight: bold;
+            letter-spacing: 3px;
+            text-shadow: 0 0 12px #00ffff;
+        }
+
+        .next-location {
+            text-align: center;
+            margin-top: 25px;
+        }
+
+        .next-location p {
+            color: #aaa;
+            margin-bottom: 15px;
+        }
+
+        .next-location img {
+            width: 100%;
+            max-width: 600px;
+            border-radius: 15px;
+            border: 2px solid #444;
+        }
+
+        .small-note {
+            color: #666;
+            font-size: 13px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>🐾 ANIMAL COUNT CHALLENGE</h1>
+
+    <p class="subtitle">
+        Enter the code you received from the previous challenge
+    </p>
+
+
+    <!-- ==========================================
+         STEP 1 - ENTER PREVIOUS CODE
+         ========================================== -->
+
+    <div class="section" id="codeSection">
+
+        <h2>🔐 Enter Your Code</h2>
+
+        <label for="previousCode">
+            Enter the code from the previous location:
+        </label>
+
+        <input
+            type="text"
+            id="previousCode"
+            placeholder="Enter code"
+            autocomplete="off"
+        >
+
+        <button id="unlockButton">
+            UNLOCK CHALLENGE
+        </button>
+
+        <div id="codeError" class="message error">
+            ❌ Invalid code. Please try again.
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         STEP 2 - ANIMAL PUZZLE
+         ========================================== -->
+
+    <div class="section hidden" id="animalSection">
+
+        <div class="team-box">
+
+            Your Team:
+
+            <span id="teamNumber"></span>
+
+        </div>
+
+
+        <h2>🔎 Find the Animals</h2>
+
+
+        <div class="animal-question">
+
+            How many
+            <span class="animal-name" id="animalName"></span>
+            can you find?
+
+        </div>
+
+
+        <!-- IMAGE WILL CHANGE AUTOMATICALLY
+             ACCORDING TO TEAM -->
+
+        <img
+            id="animalImage"
+            class="puzzle-image"
+            src=""
+            alt="Animal Puzzle"
+        >
+
+
+        <label for="answer" style="margin-top:20px;">
+
+            Enter the number you found:
+
+        </label>
+
+
+        <input
+            type="number"
+            id="answer"
+            placeholder="Enter number"
+            min="0"
+        >
+
+
+        <button id="checkButton">
+
+            CHECK ANSWER
+
+        </button>
+
+
+        <div id="answerError" class="message error">
+
+            ❌ Wrong answer. Try again!
+
+        </div>
+
+
+        <div id="answerSuccess" class="message success">
+
+            ✅ Correct answer!
+
+        </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         STEP 3 - SUCCESS
+         ========================================== -->
+
+    <div class="section hidden" id="successSection">
+
+        <h2>🎉 Challenge Completed!</h2>
+
+        <p style="text-align:center; color:#ccc; margin-top:10px;">
+
+            You found the correct answer.
+
+        </p>
+
+
+        <div class="code-box">
+
+            <p>Your next code is:</p>
+
+            <span class="code" id="newCode"></span>
+
+        </div>
+
+
+        <!-- ======================================
+             NEXT LOCATION IMAGE
+             ====================================== -->
+
+        <div class="next-location">
+
+            <p>
+                Find the place shown in the image below.
+            </p>
+
+            <img
+                src="clg.jpg"
+                alt="Next Location"
+            >
+
+        </div>
+
+    </div>
+
+
+    <p class="small-note">
+
+        Keep your code safe. You will need it at the next location.
+
+    </p>
+
+</div>
+
+
+<script>
+
+
+/* =====================================================
+   PREVIOUS CODES
+
+   These are the codes received from the CLASSROOM stage.
+   ===================================================== */
+
+const previousCodes = {
+
+    "NB-4827": 1,
+    "NB-7319": 2,
+    "NB-2564": 3,
+    "NB-9148": 4,
+    "NB-6382": 5,
+    "NB-4057": 6,
+    "NB-8273": 7,
+    "NB-5619": 8,
+    "NB-7436": 9,
+    "NB-1985": 10
+
+};
+
+
+
+/* =====================================================
+   TEAM INFORMATION
+
+   Each team gets a DIFFERENT IMAGE.
+   ===================================================== */
+
+const teamData = {
+
+    1: {
+        animal: "cats",
+        image: "cat puzzle.jpg.png",
+        answer: 15
+    },
+
+    2: {
+        animal: "dogs",
+        image: "dog.png",
+        answer: 17
+    },
+
+    3: {
+        animal: "rabbits",
+        image: "rabbit.png",
+        answer: 6
+    },
+
+    4: {
+        animal: "birds",
+        image: "bird.png",
+        answer: 7
+    },
+
+    5: {
+        animal: "butterflies",
+        image: "butterfly.png",
+        answer: 9
+    },
+
+    6: {
+        animal: "elephants",
+        image: "elephant.png",
+        answer: 10
+    },
+
+    7: {
+        animal: "foxes",
+        image: "fox.png",
+        answer: 11
+    },
+
+    8: {
+        animal: "pandas",
+        image: "panda.png",
+        answer: 8
+    },
+
+    9: {
+        animal: "frogs",
+        image: "frog.png",
+        answer: 11
+    },
+
+    10: {
+        animal: "lions",
+        image: "lion.png",
+        answer: 14
+    }
+
+};
+
+
+
+/* =====================================================
+   NEW CODE FOR EACH TEAM
+
+   These codes are DIFFERENT from the previous codes.
+   ===================================================== */
+
+const nextCodes = {
+
+    1: "ANM-7314",
+    2: "ANM-9286",
+    3: "ANM-4157",
+    4: "ANM-8623",
+    5: "ANM-5941",
+    6: "ANM-3078",
+    7: "ANM-6415",
+    8: "ANM-2794",
+    9: "ANM-8532",
+    10: "ANM-4968"
+
+};
+
+
+
+/* =====================================================
+   CURRENT TEAM
+   ===================================================== */
+
+let currentTeam = null;
+
+
+
+/* =====================================================
+   GET HTML ELEMENTS
+   ===================================================== */
+
+const previousCodeInput =
+    document.getElementById("previousCode");
+
+const unlockButton =
+    document.getElementById("unlockButton");
+
+const codeError =
+    document.getElementById("codeError");
+
+const animalSection =
+    document.getElementById("animalSection");
+
+const teamNumber =
+    document.getElementById("teamNumber");
+
+const animalName =
+    document.getElementById("animalName");
+
+const animalImage =
+    document.getElementById("animalImage");
+
+const answerInput =
+    document.getElementById("answer");
+
+const checkButton =
+    document.getElementById("checkButton");
+
+const answerError =
+    document.getElementById("answerError");
+
+const answerSuccess =
+    document.getElementById("answerSuccess");
+
+const successSection =
+    document.getElementById("successSection");
+
+const newCode =
+    document.getElementById("newCode");
+
+
+
+/* =====================================================
+   UNLOCK CHALLENGE
+   ===================================================== */
+
+unlockButton.addEventListener("click", function () {
+
+    const enteredCode =
+        previousCodeInput.value
+        .trim()
+        .toUpperCase();
+
+
+    /* Hide previous error */
+
+    codeError.style.display = "none";
+
+
+    /* Check whether code exists */
+
+    if (previousCodes.hasOwnProperty(enteredCode)) {
+
+
+        /* Find team */
+
+        currentTeam =
+            previousCodes[enteredCode];
+
+
+        /* Get that team's data */
+
+        const team =
+            teamData[currentTeam];
+
+
+        /* Display team */
+
+        teamNumber.textContent =
+            "TEAM " + currentTeam;
+
+
+        /* Display animal name */
+
+        animalName.textContent =
+            team.animal;
+
+
+        /* Display correct image */
+
+        animalImage.src =
+            team.image;
+
+
+        /* Show puzzle */
+
+        animalSection.classList.remove("hidden");
+
+
+        /* Hide code section */
+
+        document
+            .getElementById("codeSection")
+            .classList.add("hidden");
+
+
+        /* Scroll to puzzle */
+
+        animalSection.scrollIntoView({
+            behavior: "smooth"
+        });
+
+
+    } else {
+
+        /* Invalid code */
+
+        codeError.style.display =
+            "block";
+
+    }
+
+});
+
+
+
+/* =====================================================
+   CHECK ANSWER
+   ===================================================== */
+
+checkButton.addEventListener("click", function () {
+
+
+    const userAnswer =
+        parseInt(answerInput.value);
+
+
+    /* Hide messages */
+
+    answerError.style.display =
+        "none";
+
+    answerSuccess.style.display =
+        "none";
+
+
+    /* Check empty answer */
+
+    if (
+        isNaN(userAnswer) ||
+        answerInput.value.trim() === ""
+    ) {
+
+        answerError.textContent =
+            "❌ Please enter a number.";
+
+        answerError.style.display =
+            "block";
+
+        return;
+
+    }
+
+
+    /* Get team's correct answer */
+
+    const correctAnswer =
+        teamData[currentTeam].answer;
+
+
+    /* ======================================
+       CORRECT
+       ====================================== */
+
+    if (userAnswer === correctAnswer) {
+
+
+        answerSuccess.textContent =
+            "✅ Correct answer!";
+
+
+        answerSuccess.style.display =
+            "block";
+
+
+        /* Display new code */
+
+        newCode.textContent =
+            nextCodes[currentTeam];
+
+
+        /* Show success after short delay */
+
+        setTimeout(function () {
+
+            successSection.classList.remove(
+                "hidden"
+            );
+
+
+            successSection.scrollIntoView({
+                behavior: "smooth"
+            });
+
+
+        }, 600);
+
+
+        /* Disable answer */
+
+        answerInput.disabled =
+            true;
+
+        checkButton.disabled =
+            true;
+
+        checkButton.style.opacity =
+            "0.5";
+
+        checkButton.style.cursor =
+            "not-allowed";
+
+
+    }
+
+    /* ======================================
+       WRONG
+       ====================================== */
+
+    else {
+
+        answerError.textContent =
+            "❌ Wrong answer. Try again!";
+
+        answerError.style.display =
+            "block";
+
+    }
+
+});
+
+
+
+/* =====================================================
+   ENTER KEY - CODE
+   ===================================================== */
+
+previousCodeInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            unlockButton.click();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   ENTER KEY - ANSWER
+   ===================================================== */
+
+answerInput.addEventListener(
+    "keydown",
+    function(event) {
+
+        if (event.key === "Enter") {
+
+            checkButton.click();
+
+        }
+
+    }
+);
+
+</script>
+
+</body>
+</html>
